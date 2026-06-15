@@ -1,0 +1,24 @@
+# spec-006-impedimentos
+
+## Objetivo
+
+Controlar impedimentos relacionados às emendas.
+
+## Funcionalidades
+
+* Sincronização automática
+* Registro manual
+* Histórico
+* Resolução
+* Alertas
+
+## Regras de Negócio
+
+* Impedimentos encerrados permanecem armazenados
+* Histórico não pode ser removido
+
+## Critérios de Aceite
+
+* Impedimentos sincronizados
+* Histórico acessível
+* Alertas gerados corretamente

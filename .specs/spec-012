@@ -1,0 +1,24 @@
+# spec-012-api-publica
+
+## Objetivo
+
+Disponibilizar APIs para integração com sistemas externos.
+
+## Endpoints
+
+* Emendas
+* Convênios
+* Indicadores
+* Dashboard
+
+## Funcionalidades
+
+* Autenticação por API Key
+* Rate Limit
+* Swagger
+
+## Critérios de Aceite
+
+* Documentação disponível
+* Controle de acesso funcionando
+* Limites respeitados

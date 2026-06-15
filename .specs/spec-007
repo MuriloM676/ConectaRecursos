@@ -1,0 +1,25 @@
+# spec-007-alertas
+
+## Objetivo
+
+Notificar gestores sobre eventos relevantes.
+
+## Eventos
+
+* Nova emenda recebida
+* Convênio vencendo
+* Impedimento identificado
+* Prestação de contas pendente
+* Falha de sincronização
+
+## Canais
+
+* E-mail
+* Dashboard
+* Webhook
+
+## Critérios de Aceite
+
+* Alertas enviados corretamente
+* Histórico disponível
+* Configuração por tenant

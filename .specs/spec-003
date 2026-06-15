@@ -1,0 +1,38 @@
+# spec-003-emendas
+
+## Objetivo
+
+Gerenciar emendas parlamentares recebidas pelos municípios.
+
+## Funcionalidades
+
+* Cadastro de emendas
+* Consulta
+* Atualização
+* Histórico
+* Filtros
+* Dashboard
+
+## Campos
+
+* Exercício
+* Parlamentar
+* Tipo de emenda
+* Valor
+* Beneficiário
+* Status
+* Objeto
+
+## Regras de Negócio
+
+* Toda emenda deve possuir exercício
+* Toda emenda deve possuir autor
+* Histórico não pode ser removido
+
+## Critérios de Aceite
+
+* CRUD completo funcionando
+* Histórico registrado automaticamente
+* Pesquisa por parlamentar
+* Pesquisa por exercício
+* Pesquisa por status

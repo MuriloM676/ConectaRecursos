@@ -1,0 +1,43 @@
+# spec-001-auth
+
+## Objetivo
+
+Implementar autenticação segura para usuários da plataforma CaptaGov.
+
+## Descrição
+
+A plataforma deve permitir que usuários autenticados acessem recursos de acordo com suas permissões e tenant associado.
+
+## Funcionalidades
+
+* Login com e-mail e senha
+* Logout
+* Refresh Token
+* Recuperação de senha
+* Alteração de senha
+* Bloqueio após tentativas consecutivas
+* Sessões simultâneas controladas
+
+## Regras de Negócio
+
+* Todo usuário deve pertencer a um tenant
+* Tokens JWT devem possuir tempo de expiração configurável
+* Refresh Token deve ser invalidado após uso
+* Senhas devem ser armazenadas utilizando hash seguro
+
+## Critérios de Aceite
+
+* Usuário consegue autenticar com credenciais válidas
+* Usuário não consegue acessar recursos protegidos sem autenticação
+* Token expirado retorna erro 401
+* Refresh Token gera novo Access Token
+* Recuperação de senha funciona através de token temporário
+
+## Requisitos Técnicos
+
+* NestJS
+* Passport
+* JWT
+* Prisma
+* PostgreSQL
+* Bcrypt

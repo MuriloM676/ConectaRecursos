@@ -1,0 +1,19 @@
+# spec-010-permissoes
+
+## Objetivo
+
+Implementar controle de acesso baseado em papéis.
+
+## Perfis
+
+* Administrador Global
+* Administrador Municipal
+* Gestor
+* Operador
+* Visualizador
+
+## Critérios de Aceite
+
+* Permissões respeitadas
+* Acesso negado quando necessário
+* Auditoria de acessos disponível

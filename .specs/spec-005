@@ -1,0 +1,28 @@
+# spec-005-convenios
+
+## Objetivo
+
+Gerenciar convênios relacionados às emendas parlamentares.
+
+## Funcionalidades
+
+* Cadastro de convênios
+* Vinculação com emendas
+* Cronograma financeiro
+* Acompanhamento
+* Situação
+
+## Campos
+
+* Número
+* Objeto
+* Valor
+* Contrapartida
+* Vigência
+* Situação
+
+## Critérios de Aceite
+
+* Convênio vinculado à emenda
+* Cronograma financeiro registrado
+* Situação atualizada corretamente

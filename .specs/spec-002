@@ -1,0 +1,36 @@
+# spec-002-tenants
+
+## Objetivo
+
+Permitir que múltiplas prefeituras utilizem a plataforma mantendo isolamento completo dos dados.
+
+## Descrição
+
+O sistema deve operar no modelo SaaS Multi-Tenant.
+
+## Funcionalidades
+
+* Cadastro de tenant
+* Vinculação de usuários
+* Isolamento de dados
+* Administração global
+* Configurações específicas por tenant
+
+## Regras de Negócio
+
+* Um usuário pertence a apenas um tenant
+* Um tenant pode possuir múltiplos usuários
+* Dados não podem ser compartilhados entre tenants
+
+## Critérios de Aceite
+
+* Usuários visualizam apenas dados do próprio tenant
+* Administrador global pode visualizar todos os tenants
+* Exclusão de tenant não remove dados históricos
+
+## Requisitos Técnicos
+
+* Prisma Middleware
+* Tenant Context
+* Guards NestJS
+* PostgreSQL

@@ -1,0 +1,26 @@
+# spec-013-deploy
+
+## Objetivo
+
+Garantir implantação automatizada da plataforma.
+
+## Infraestrutura
+
+* Docker
+* Docker Compose
+* PostgreSQL
+* Redis
+* RabbitMQ
+
+## Funcionalidades
+
+* Ambientes separados
+* CI/CD
+* Backups
+* Migrações automáticas
+
+## Critérios de Aceite
+
+* Ambiente sobe com único comando
+* Pipeline executa testes
+* Deploy automatizado disponível

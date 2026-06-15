@@ -1,0 +1,46 @@
+# spec-004-sincronizacao-siop
+
+## Objetivo
+
+Sincronizar automaticamente dados do SIOP.
+
+## Descrição
+
+A plataforma deverá consumir periodicamente a API GraphQL do SIOP para atualização das informações das emendas parlamentares.
+
+## Funcionalidades
+
+* Sincronização manual
+* Sincronização automática
+* Atualização incremental
+* Registro de logs
+* Reprocessamento
+
+## Dados Sincronizados
+
+* Emendas
+* Beneficiários
+* Impedimentos
+* Situações
+* Pedidos
+
+## Regras de Negócio
+
+* Nenhum dado sincronizado pode ser excluído fisicamente
+* Falhas devem ser registradas
+* Reprocessamentos devem ser permitidos
+
+## Critérios de Aceite
+
+* Sincronização concluída com sucesso
+* Atualizações refletidas no sistema
+* Logs disponíveis para consulta
+* Falhas registradas adequadamente
+
+## Requisitos Técnicos
+
+* GraphQL
+* BullMQ
+* Redis
+* RabbitMQ
+* NestJS Schedule

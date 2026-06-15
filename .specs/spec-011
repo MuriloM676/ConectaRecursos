@@ -1,0 +1,18 @@
+# spec-011-observabilidade
+
+## Objetivo
+
+Monitorar saúde e desempenho da plataforma.
+
+## Funcionalidades
+
+* Logs estruturados
+* Health Checks
+* Métricas
+* Rastreamento de jobs
+
+## Critérios de Aceite
+
+* Logs pesquisáveis
+* Endpoint de health check
+* Monitoramento das integrações SIOP

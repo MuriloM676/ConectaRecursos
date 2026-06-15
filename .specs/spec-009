@@ -1,0 +1,26 @@
+# spec-009-documentos
+
+## Objetivo
+
+Centralizar documentação relacionada às emendas e convênios.
+
+## Funcionalidades
+
+* Upload
+* Download
+* Versionamento
+* Organização por categoria
+
+## Tipos Permitidos
+
+* PDF
+* DOCX
+* XLSX
+* PNG
+* JPG
+
+## Critérios de Aceite
+
+* Upload realizado com sucesso
+* Histórico preservado
+* Download disponível

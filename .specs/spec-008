@@ -1,0 +1,23 @@
+# spec-008-dashboard
+
+## Objetivo
+
+Fornecer indicadores executivos.
+
+## Indicadores
+
+* Total captado
+* Total executado
+* Total recebido
+* Emendas por parlamentar
+* Emendas por área
+* Convênios ativos
+* Convênios encerrados
+* Impedimentos abertos
+
+## Critérios de Aceite
+
+* Dados atualizados
+* Filtros por período
+* Filtros por parlamentar
+* Exportação de relatórios
