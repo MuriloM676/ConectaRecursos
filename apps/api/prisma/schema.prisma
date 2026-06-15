@@ -1,0 +1,520 @@
+// ============================================================
+// CaptaGov - Database Schema
+// Multi-Tenant SaaS Platform for Parliamentary Amendments Management
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// CORE: Tenants, Users, Roles, Permissions
+// ============================================================
+
+model Tenant {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(255)
+  document  String   @unique @db.VarChar(18)
+  city      String?  @db.VarChar(100)
+  state     String?  @db.VarChar(2)
+  status    String   @default("ACTIVE") @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  users         User[]
+  emendas       Emenda[]
+  convenios     Convenio[]
+  alerts        Alert[]
+  integrations  Integration[]
+  documents     Document[]
+  reports       GeneratedReport[]
+  auditLogs     AuditLog[]
+  workflows     ApprovalWorkflow[]
+
+  @@map("tenants")
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  tenantId     String    @map("tenant_id") @db.Uuid
+  roleId       String    @map("role_id") @db.Uuid
+  name         String    @db.VarChar(255)
+  email        String    @unique @db.VarChar(255)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  active       Boolean   @default(true)
+  lastLogin    DateTime? @map("last_login")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  @@index([tenantId])
+  @@index([email])
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  users           User[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(100)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+// ============================================================
+// EMENDAS
+// ============================================================
+
+model Parliamentarian {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(255)
+  party     String   @db.VarChar(20)
+  state     String   @db.VarChar(2)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  emendas Emenda[]
+
+  @@map("parliamentarians")
+}
+
+model Emenda {
+  id                String    @id @default(uuid()) @db.Uuid
+  tenantId          String    @map("tenant_id") @db.Uuid
+  parliamentarianId String    @map("parliamentarian_id") @db.Uuid
+  externalId        String?   @map("external_id") @db.VarChar(100)
+  year              Int
+  number            String    @db.VarChar(50)
+  type              String    @default("INDIVIDUAL") @db.VarChar(30)
+  object            String    @db.Text
+  amount            Decimal   @db.Decimal(15, 2)
+  status            String    @default("PENDING") @db.VarChar(30)
+  source            String    @default("MANUAL") @db.VarChar(20)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  deletedAt         DateTime? @map("deleted_at")
+
+  tenant          Tenant          @relation(fields: [tenantId], references: [id])
+  parliamentarian Parliamentarian @relation(fields: [parliamentarianId], references: [id])
+  beneficiaries   Beneficiary[]
+  convenios       Convenio[]
+  impediments     Impediment[]
+  history         EmendaHistory[]
+
+  @@index([tenantId])
+  @@index([parliamentarianId])
+  @@index([year])
+  @@index([status])
+  @@index([externalId])
+  @@map("emendas")
+}
+
+model EmendaHistory {
+  id        String   @id @default(uuid()) @db.Uuid
+  emendaId  String   @map("emenda_id") @db.Uuid
+  fieldName String   @map("field_name") @db.VarChar(100)
+  oldValue  String?  @map("old_value") @db.Text
+  newValue  String?  @map("new_value") @db.Text
+  changedBy String?  @map("changed_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  emenda Emenda @relation(fields: [emendaId], references: [id], onDelete: Cascade)
+
+  @@index([emendaId])
+  @@map("emenda_history")
+}
+
+model Beneficiary {
+  id       String  @id @default(uuid()) @db.Uuid
+  emendaId String  @map("emenda_id") @db.Uuid
+  name     String  @db.VarChar(255)
+  document String? @db.VarChar(18)
+  amount   Decimal @db.Decimal(15, 2)
+
+  emenda Emenda @relation(fields: [emendaId], references: [id], onDelete: Cascade)
+
+  @@index([emendaId])
+  @@map("beneficiaries")
+}
+
+// ============================================================
+// CONVÊNIOS
+// ============================================================
+
+model Convenio {
+  id                String    @id @default(uuid()) @db.Uuid
+  tenantId          String    @map("tenant_id") @db.Uuid
+  emendaId          String    @map("emenda_id") @db.Uuid
+  number            String    @db.VarChar(100)
+  object            String    @db.Text
+  totalAmount       Decimal   @map("total_amount") @db.Decimal(15, 2)
+  counterpartAmount Decimal   @map("counterpart_amount") @db.Decimal(15, 2)
+  startDate         DateTime? @map("start_date") @db.Date
+  endDate           DateTime? @map("end_date") @db.Date
+  status            String    @default("DRAFT") @db.VarChar(30)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  deletedAt         DateTime? @map("deleted_at")
+
+  tenant                Tenant                     @relation(fields: [tenantId], references: [id])
+  emenda                Emenda                     @relation(fields: [emendaId], references: [id])
+  financialSchedules    ConvenioFinancialSchedule[]
+  projectStages         ProjectStage[]
+  accountabilityReports AccountabilityReport[]
+
+  @@index([tenantId])
+  @@index([emendaId])
+  @@index([status])
+  @@map("convenios")
+}
+
+model ConvenioFinancialSchedule {
+  id             String    @id @default(uuid()) @db.Uuid
+  convenioId     String    @map("convenio_id") @db.Uuid
+  expectedAmount Decimal   @map("expected_amount") @db.Decimal(15, 2)
+  expectedDate   DateTime  @map("expected_date") @db.Date
+  receivedAmount Decimal?  @map("received_amount") @db.Decimal(15, 2)
+  receivedDate   DateTime? @map("received_date") @db.Date
+  status         String    @default("PENDING") @db.VarChar(30)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  convenio Convenio @relation(fields: [convenioId], references: [id], onDelete: Cascade)
+
+  @@index([convenioId])
+  @@map("convenio_financial_schedule")
+}
+
+// ============================================================
+// EXECUÇÃO FÍSICA
+// ============================================================
+
+model ProjectStage {
+  id                String   @id @default(uuid()) @db.Uuid
+  convenioId        String   @map("convenio_id") @db.Uuid
+  name              String   @db.VarChar(255)
+  plannedPercentage Decimal  @map("planned_percentage") @db.Decimal(5, 2)
+  actualPercentage  Decimal  @default(0) @map("actual_percentage") @db.Decimal(5, 2)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  convenio Convenio         @relation(fields: [convenioId], references: [id], onDelete: Cascade)
+  progress ProjectProgress[]
+
+  @@index([convenioId])
+  @@map("project_stages")
+}
+
+model ProjectProgress {
+  id         String   @id @default(uuid()) @db.Uuid
+  stageId    String   @map("stage_id") @db.Uuid
+  percentage Decimal  @db.Decimal(5, 2)
+  notes      String?  @db.Text
+  createdBy  String?  @map("created_by") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  stage ProjectStage @relation(fields: [stageId], references: [id], onDelete: Cascade)
+
+  @@index([stageId])
+  @@map("project_progress")
+}
+
+// ============================================================
+// IMPEDIMENTOS
+// ============================================================
+
+model Impediment {
+  id          String    @id @default(uuid()) @db.Uuid
+  emendaId    String    @map("emenda_id") @db.Uuid
+  externalId  String?   @map("external_id") @db.VarChar(100)
+  description String    @db.Text
+  status      String    @default("OPEN") @db.VarChar(30)
+  openedAt    DateTime  @default(now()) @map("opened_at")
+  resolvedAt  DateTime? @map("resolved_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  emenda  Emenda              @relation(fields: [emendaId], references: [id])
+  history ImpedimentHistory[]
+
+  @@index([emendaId])
+  @@index([status])
+  @@map("impediments")
+}
+
+model ImpedimentHistory {
+  id           String   @id @default(uuid()) @db.Uuid
+  impedimentId String   @map("impediment_id") @db.Uuid
+  oldStatus    String?  @map("old_status") @db.VarChar(30)
+  newStatus    String?  @map("new_status") @db.VarChar(30)
+  changedAt    DateTime @default(now()) @map("changed_at")
+
+  impediment Impediment @relation(fields: [impedimentId], references: [id], onDelete: Cascade)
+
+  @@index([impedimentId])
+  @@map("impediment_history")
+}
+
+// ============================================================
+// PRESTAÇÃO DE CONTAS + WORKFLOW
+// ============================================================
+
+model AccountabilityReport {
+  id          String    @id @default(uuid()) @db.Uuid
+  convenioId  String    @map("convenio_id") @db.Uuid
+  status      String    @default("DRAFT") @db.VarChar(30)
+  submittedAt DateTime? @map("submitted_at")
+  approvedAt  DateTime? @map("approved_at")
+  notes       String?   @db.Text
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  convenio Convenio             @relation(fields: [convenioId], references: [id])
+  items    AccountabilityItem[]
+
+  @@index([convenioId])
+  @@map("accountability_reports")
+}
+
+model AccountabilityItem {
+  id          String  @id @default(uuid()) @db.Uuid
+  reportId    String  @map("report_id") @db.Uuid
+  description String  @db.Text
+  amount      Decimal @db.Decimal(15, 2)
+
+  report AccountabilityReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@map("accountability_items")
+}
+
+model ApprovalWorkflow {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  tenant    Tenant          @relation(fields: [tenantId], references: [id])
+  steps     ApprovalStep[]
+  approvals Approval[]
+
+  @@map("approval_workflows")
+}
+
+model ApprovalStep {
+  id           String @id @default(uuid()) @db.Uuid
+  workflowId   String @map("workflow_id") @db.Uuid
+  stepOrder    Int    @map("step_order")
+  approverRole String @map("approver_role") @db.VarChar(50)
+
+  workflow ApprovalWorkflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@unique([workflowId, stepOrder])
+  @@map("approval_steps")
+}
+
+model Approval {
+  id         String    @id @default(uuid()) @db.Uuid
+  workflowId String    @map("workflow_id") @db.Uuid
+  entityType String    @map("entity_type") @db.VarChar(50)
+  entityId   String    @map("entity_id") @db.Uuid
+  status     String    @default("PENDING") @db.VarChar(30)
+  approvedBy String?   @map("approved_by") @db.Uuid
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  workflow ApprovalWorkflow @relation(fields: [workflowId], references: [id])
+
+  @@index([entityType, entityId])
+  @@map("approvals")
+}
+
+// ============================================================
+// DOCUMENTOS
+// ============================================================
+
+model Document {
+  id         String    @id @default(uuid()) @db.Uuid
+  tenantId   String    @map("tenant_id") @db.Uuid
+  entityType String    @map("entity_type") @db.VarChar(50)
+  entityId   String    @map("entity_id") @db.Uuid
+  fileName   String    @map("file_name") @db.VarChar(255)
+  filePath   String    @map("file_path") @db.VarChar(500)
+  mimeType   String    @map("mime_type") @db.VarChar(100)
+  version    Int       @default(1)
+  uploadedBy String?   @map("uploaded_by") @db.Uuid
+  createdAt  DateTime  @default(now()) @map("created_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@index([entityType, entityId])
+  @@map("documents")
+}
+
+// ============================================================
+// ALERTAS
+// ============================================================
+
+model Alert {
+  id          String    @id @default(uuid()) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  type        String    @db.VarChar(50)
+  title       String    @db.VarChar(255)
+  description String?   @db.Text
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id])
+  recipients AlertRecipient[]
+
+  @@index([tenantId])
+  @@index([type])
+  @@map("alerts")
+}
+
+model AlertRecipient {
+  id      String    @id @default(uuid()) @db.Uuid
+  alertId String    @map("alert_id") @db.Uuid
+  userId  String    @map("user_id") @db.Uuid
+  readAt  DateTime? @map("read_at")
+
+  alert Alert @relation(fields: [alertId], references: [id], onDelete: Cascade)
+
+  @@unique([alertId, userId])
+  @@map("alert_recipients")
+}
+
+// ============================================================
+// RELATÓRIOS
+// ============================================================
+
+model GeneratedReport {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  reportType  String   @map("report_type") @db.VarChar(50)
+  format      String   @default("PDF") @db.VarChar(10)
+  generatedBy String?  @map("generated_by") @db.Uuid
+  filePath    String?  @map("file_path") @db.VarChar(500)
+  generatedAt DateTime @default(now()) @map("generated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("generated_reports")
+}
+
+// ============================================================
+// INTEGRAÇÕES + JOBS + AUDITORIA + DASHBOARD
+// ============================================================
+
+model Integration {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  provider   String   @db.VarChar(50)
+  active     Boolean  @default(true)
+  configJson Json?    @map("config_json") @db.JsonB
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant            @relation(fields: [tenantId], references: [id])
+  logs   IntegrationLog[]
+
+  @@index([tenantId])
+  @@map("integrations")
+}
+
+model IntegrationLog {
+  id              String   @id @default(uuid()) @db.Uuid
+  integrationId   String   @map("integration_id") @db.Uuid
+  status          String   @db.VarChar(30)
+  requestPayload  Json?    @map("request_payload") @db.JsonB
+  responsePayload Json?    @map("response_payload") @db.JsonB
+  executedAt      DateTime @default(now()) @map("executed_at")
+
+  integration Integration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([integrationId])
+  @@map("integration_logs")
+}
+
+model SyncJob {
+  id               String    @id @default(uuid()) @db.Uuid
+  provider         String    @db.VarChar(50)
+  status           String    @default("PENDING") @db.VarChar(30)
+  startedAt        DateTime? @map("started_at")
+  finishedAt       DateTime? @map("finished_at")
+  recordsProcessed Int       @default(0) @map("records_processed")
+  errorMessage     String?   @map("error_message") @db.Text
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  @@index([status])
+  @@map("sync_jobs")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  entityType String   @map("entity_type") @db.VarChar(50)
+  entityId   String?  @map("entity_id") @db.Uuid
+  action     String   @db.VarChar(50)
+  oldData    Json?    @map("old_data") @db.JsonB
+  newData    Json?    @map("new_data") @db.JsonB
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model DashboardMetric {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  metricName    String   @map("metric_name") @db.VarChar(100)
+  metricValue   Decimal  @map("metric_value") @db.Decimal(15, 2)
+  referenceDate DateTime @map("reference_date") @db.Date
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([tenantId, metricName, referenceDate])
+  @@map("dashboard_metrics")
+}

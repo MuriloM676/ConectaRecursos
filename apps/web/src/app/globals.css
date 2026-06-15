@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-captagov-50: #eff6ff;
+  --color-captagov-100: #dbeafe;
+  --color-captagov-200: #bfdbfe;
+  --color-captagov-300: #93c5fd;
+  --color-captagov-400: #60a5fa;
+  --color-captagov-500: #3b82f6;
+  --color-captagov-600: #2563eb;
+  --color-captagov-700: #1d4ed8;
+  --color-captagov-800: #1e40af;
+  --color-captagov-900: #1e3a8a;
+  --color-captagov-950: #172554;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+}

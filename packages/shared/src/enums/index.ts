@@ -1,0 +1,75 @@
+export enum TenantStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+}
+
+export enum EmendaStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ConvenioStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  SUSPENDED = 'SUSPENDED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ImpedimentStatus {
+  OPEN = 'OPEN',
+  IN_PROGRESS = 'IN_PROGRESS',
+  RESOLVED = 'RESOLVED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum AccountabilityStatus {
+  DRAFT = 'DRAFT',
+  SUBMITTED = 'SUBMITTED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export enum SyncJobStatus {
+  PENDING = 'PENDING',
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+}
+
+export enum ReportType {
+  EMENDAS = 'EMENDAS',
+  CONVENIOS = 'CONVENIOS',
+  FINANCIAL = 'FINANCIAL',
+  ACCOUNTABILITY = 'ACCOUNTABILITY',
+  IMPEDIMENTS = 'IMPEDIMENTS',
+}
+
+export enum ReportFormat {
+  PDF = 'PDF',
+  EXCEL = 'EXCEL',
+  CSV = 'CSV',
+}
+
+export enum AlertType {
+  NEW_EMENDA = 'NEW_EMENDA',
+  CONVENIO_EXPIRING = 'CONVENIO_EXPIRING',
+  IMPEDIMENT_CREATED = 'IMPEDIMENT_CREATED',
+  ACCOUNTABILITY_PENDING = 'ACCOUNTABILITY_PENDING',
+  SYNC_FAILURE = 'SYNC_FAILURE',
+}
+
+export enum EmendaSource {
+  MANUAL = 'MANUAL',
+  SIOP = 'SIOP',
+}
+
+export enum EmendaType {
+  INDIVIDUAL = 'INDIVIDUAL',
+  BANCADA = 'BANCADA',
+  COMISSAO = 'COMISSAO',
+  RELATOR = 'RELATOR',
+}
