@@ -303,91 +303,71 @@ Criar testes CRUD
 
 ---
 
-# FASE 08 - EMENDAS 🔜 PRÓXIMA
+# FASE 08 - EMENDAS ✅ CONCLUÍDA
 
-## T081
-
+## T081 ✅
 Criar tabela emendas
 
-## T082
-
+## T082 ✅
 Criar tabela emenda_history
 
-## T083
-
+## T083 ✅
 Criar migration
 
-## T084
-
+## T084 ✅
 Criar módulo Emendas
 
-## T085
-
+## T085 ✅
 Criar DTO CreateEmenda
 
-## T086
-
+## T086 ✅
 Criar DTO UpdateEmenda
 
-## T087
-
+## T087 ✅
 Criar endpoint listagem
 
-## T088
-
+## T088 ✅
 Criar endpoint consulta
 
-## T089
-
+## T089 ✅
 Criar endpoint criação
 
-## T090
-
+## T090 ✅
 Criar endpoint atualização
 
-## T091
-
+## T091 ✅
 Criar endpoint exclusão
 
-## T092
-
+## T092 ✅
 Criar endpoint histórico
 
-## T093
-
+## T093 ✅
 Criar filtros por exercício
 
-## T094
-
+## T094 ✅
 Criar filtros por parlamentar
 
-## T095
-
+## T095 ✅
 Criar filtros por status
 
-## T096
-
+## T096 ✅
 Criar pagina Emendas
 
-## T097
-
+## T097 ✅
 Criar dashboard Emendas
 
-## T098
-
+## T098 ✅
 Criar testes unitários
 
-## T099
-
+## T099 ✅
 Criar testes integração
 
-## T100
-
+## T100 ✅
 Criar testes E2E
 
 ---
 
-# FASE 09 - SIOP
+# FASE 09 - SIOP 🔜 PRÓXIMA
 
 T101 até T130
 

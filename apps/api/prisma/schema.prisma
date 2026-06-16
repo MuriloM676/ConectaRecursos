@@ -99,12 +99,13 @@ model RolePermission {
 // ============================================================
 
 model Parliamentarian {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String   @db.VarChar(255)
-  party     String   @db.VarChar(20)
-  state     String   @db.VarChar(2)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String   @id @default(uuid()) @db.Uuid
+  externalId String?  @unique @map("external_id") @db.VarChar(100)
+  name       String   @db.VarChar(255)
+  party      String   @db.VarChar(20)
+  state      String   @db.VarChar(2)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   emendas Emenda[]
 
@@ -115,7 +116,7 @@ model Emenda {
   id                String    @id @default(uuid()) @db.Uuid
   tenantId          String    @map("tenant_id") @db.Uuid
   parliamentarianId String    @map("parliamentarian_id") @db.Uuid
-  externalId        String?   @map("external_id") @db.VarChar(100)
+  externalId        String?   @unique @map("external_id") @db.VarChar(100)
   year              Int
   number            String    @db.VarChar(50)
   type              String    @default("INDIVIDUAL") @db.VarChar(30)
@@ -166,6 +167,7 @@ model Beneficiary {
 
   emenda Emenda @relation(fields: [emendaId], references: [id], onDelete: Cascade)
 
+  @@unique([emendaId, document])
   @@index([emendaId])
   @@map("beneficiaries")
 }
@@ -259,7 +261,7 @@ model ProjectProgress {
 model Impediment {
   id          String    @id @default(uuid()) @db.Uuid
   emendaId    String    @map("emenda_id") @db.Uuid
-  externalId  String?   @map("external_id") @db.VarChar(100)
+  externalId  String?   @unique @map("external_id") @db.VarChar(100)
   description String    @db.Text
   status      String    @default("OPEN") @db.VarChar(30)
   openedAt    DateTime  @default(now()) @map("opened_at")
