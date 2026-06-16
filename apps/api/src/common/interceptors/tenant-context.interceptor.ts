@@ -4,7 +4,8 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable, finalize } from 'rxjs';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { AsyncLocalStorage } from 'async_hooks';
 import { PrismaService } from '@modules/prisma/prisma.service';
 
@@ -46,11 +47,9 @@ export class TenantContextInterceptor implements NestInterceptor {
         });
       });
     }).pipe(
-      tap({
-        final: () => {
-          // Clear tenant context after request completes
-          this.prisma.clearTenantId();
-        },
+      finalize(() => {
+        // Clear tenant context after request completes
+        this.prisma.clearTenantId();
       }),
     );
   }
