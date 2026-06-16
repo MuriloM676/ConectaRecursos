@@ -284,31 +284,26 @@ Criar paginação
 
 ---
 
-# FASE 07 - PARLAMENTARES
+# FASE 07 - PARLAMENTARES ✅ CONCLUÍDA
 
-## T076
-
+## T076 ✅
 Criar tabela parliamentarians
 
-## T077
-
+## T077 ✅
 Criar migration
 
-## T078
-
+## T078 ✅
 Criar módulo Parliamentarians
 
-## T079
-
+## T079 ✅
 Criar CRUD Parlamentares
 
-## T080
-
+## T080 ✅
 Criar testes CRUD
 
 ---
 
-# FASE 08 - EMENDAS
+# FASE 08 - EMENDAS 🔜 PRÓXIMA
 
 ## T081
 
