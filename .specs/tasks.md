@@ -241,10 +241,7 @@ Criar endpoint gestão permissões
 
 ## T062 ✅
 Criar testes RBAC
-
----
-
-# FASE 06 - USERS
+# FASE 06 - USERS ✅ CONCLUÍDA
 
 ## T063 ✅
 Criar módulo Users
@@ -270,23 +267,19 @@ Criar endpoint atualização
 ## T070 ✅
 Criar endpoint exclusão lógica
 
-## T071 🔜 PRÓXIMA
+## T071 ✅
 Criar pagina usuários
 
-## T072
-
+## T072 ✅
 Criar formulário usuário
 
-## T073
-
+## T073 ✅
 Criar tabela usuários
 
-## T074
-
+## T074 ✅
 Criar filtros
 
-## T075
-
+## T075 ✅
 Criar paginação
 
 ---
