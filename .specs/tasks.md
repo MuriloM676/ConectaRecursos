@@ -219,34 +219,27 @@ Criar endpoint edição tenant
 
 ---
 
-# FASE 05 - RBAC 🔜 PRÓXIMA
+# FASE 05 - RBAC ✅ CONCLUÍDA
 
-## T056
-
+## T056 ✅
 Criar módulo Roles
 
-## T057
-
+## T057 ✅
 Criar módulo Permissions
 
-## T058
-
+## T058 ✅
 Criar Permission Guard
 
-## T059
-
+## T059 ✅
 Criar Roles Decorator
 
-## T060
-
+## T060 ✅
 Criar endpoint gestão perfis
 
-## T061
-
+## T061 ✅
 Criar endpoint gestão permissões
 
-## T062
-
+## T062 ✅
 Criar testes RBAC
 
 ---

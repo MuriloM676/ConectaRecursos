@@ -33,6 +33,14 @@ import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
       useClass: TenantGuard,
     },
     {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: TenantContextInterceptor,
     },
