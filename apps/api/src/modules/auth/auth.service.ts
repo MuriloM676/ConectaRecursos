@@ -86,7 +86,7 @@ export class AuthService {
     });
 
     const permissions = user.role.rolePermissions.map(
-      (rp) => rp.permission.code,
+      (rp: { permission: { code: string } }) => rp.permission.code,
     );
 
     return this.generateTokens(
@@ -145,7 +145,7 @@ export class AuthService {
     }
 
     const permissions = user.role.rolePermissions.map(
-      (rp) => rp.permission.code,
+      (rp: { permission: { code: string } }) => rp.permission.code,
     );
 
     const accessToken = this.jwtService.sign(

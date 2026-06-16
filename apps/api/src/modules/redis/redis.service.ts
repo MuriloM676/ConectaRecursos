@@ -18,7 +18,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       password: this.config.password,
     });
 
-    this.client.on('error', (err) => {
+    this.client.on('error', (err: Error) => {
       this.logger.error(`Redis connection error: ${err.message}`);
     });
 
