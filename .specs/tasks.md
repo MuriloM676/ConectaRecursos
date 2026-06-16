@@ -542,19 +542,8 @@ T281 até T295
 
 ---
 
-# FASE 18 - AUDITORIA
 
-T296 até T310
-
-* Audit Logs
-* Histórico
-* Consulta
-* Filtros
-* Exportação
-
----
-
-# FASE 19 - OBSERVABILIDADE
+# FASE 18 - OBSERVABILIDADE
 
 T311 até T325
 
@@ -566,7 +555,7 @@ T311 até T325
 
 ---
 
-# FASE 20 - DEPLOY
+# FASE 19 - DEPLOY
 
 T326 até T350
 

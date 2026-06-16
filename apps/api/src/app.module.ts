@@ -10,14 +10,18 @@ import { PrismaModule } from '@modules/prisma/prisma.module';
 import { RedisModule } from '@modules/redis/redis.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { TenantsModule } from '@modules/tenants/tenants.module';
+import { RolesModule } from '@modules/roles/roles.module';
+import { PermissionsModule } from '@modules/permissions/permissions.module';
 import { AuthGuard } from '@common/guards/auth.guard';
 import { TenantGuard } from '@common/guards/tenant.guard';
+import { RolesGuard } from '@common/guards/roles.guard';
+import { PermissionsGuard } from '@common/guards/permissions.guard';
 import { TenantMiddleware } from '@common/middleware/tenant.middleware';
 import { TenantContextInterceptor } from '@common/interceptors/tenant-context.interceptor';
 import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
 
 @Module({
-  imports: [ConfigModule, PrismaModule, RedisModule, AuthModule, TenantsModule],
+  imports: [ConfigModule, PrismaModule, RedisModule, AuthModule, TenantsModule, RolesModule, PermissionsModule],
   controllers: [],
   providers: [
     {

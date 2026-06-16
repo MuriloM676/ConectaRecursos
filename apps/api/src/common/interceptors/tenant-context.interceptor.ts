@@ -4,7 +4,7 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
 import { AsyncLocalStorage } from 'async_hooks';
 import { PrismaService } from '@modules/prisma/prisma.service';
 
