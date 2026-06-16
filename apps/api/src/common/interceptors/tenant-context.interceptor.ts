@@ -4,8 +4,9 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AsyncLocalStorage } from 'async_hooks';
+import { PrismaService } from '@modules/prisma/prisma.service';
 
 export interface TenantContext {
   tenantId: string;
@@ -21,13 +22,20 @@ export class TenantContextInterceptor implements NestInterceptor {
     return this.storage.getStore();
   }
 
+  constructor(private readonly prisma: PrismaService) {}
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest();
     const tenantContext: TenantContext = {
-      tenantId: request.user?.tenantId || 'system',
+      tenantId: request.user?.tenantId || request.tenantId || 'system',
       userId: request.user?.sub || 'system',
       role: request.user?.role || 'system',
     };
+
+    // Set tenant context in PrismaService for automatic filtering
+    this.prisma.setTenantId(
+      tenantContext.tenantId !== 'system' ? tenantContext.tenantId : null,
+    );
 
     return new Observable((subscriber) => {
       TenantContextInterceptor.storage.run(tenantContext, () => {
@@ -37,6 +45,13 @@ export class TenantContextInterceptor implements NestInterceptor {
           complete: () => subscriber.complete(),
         });
       });
-    });
+    }).pipe(
+      tap({
+        final: () => {
+          // Clear tenant context after request completes
+          this.prisma.clearTenantId();
+        },
+      }),
+    );
   }
 }

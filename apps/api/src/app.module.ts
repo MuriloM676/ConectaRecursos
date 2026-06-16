@@ -1,19 +1,47 @@
-import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from './config/config.module';
 import { PrismaModule } from '@modules/prisma/prisma.module';
 import { RedisModule } from '@modules/redis/redis.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { TenantsModule } from '@modules/tenants/tenants.module';
 import { AuthGuard } from '@common/guards/auth.guard';
+import { TenantGuard } from '@common/guards/tenant.guard';
+import { TenantMiddleware } from '@common/middleware/tenant.middleware';
+import { TenantContextInterceptor } from '@common/interceptors/tenant-context.interceptor';
+import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
 
 @Module({
-  imports: [ConfigModule, PrismaModule, RedisModule, AuthModule],
+  imports: [ConfigModule, PrismaModule, RedisModule, AuthModule, TenantsModule],
   controllers: [],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
+    {
+      provide: APP_GUARD,
+      useClass: TenantGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TenantContextInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(TenantMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

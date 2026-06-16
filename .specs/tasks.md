@@ -121,105 +121,105 @@ Criar permissões padrão
 
 ---
 
-# FASE 03 - AUTH
+# FASE 03 - AUTH ✅ CONCLUÍDA
 
-## T034
+## T034 ✅
 
 Criar módulo Auth
 
-## T035
+## T035 ✅
 
 Criar DTO Login
 
-## T036
+## T036 ✅
 
 Criar DTO Refresh
 
-## T037
+## T037 ✅
 
 Criar Password Hash Service
 
-## T038
+## T038 ✅
 
 Implementar JWT
 
-## T039
+## T039 ✅
 
 Implementar Refresh Token
 
-## T040
+## T040 ✅
 
 Criar Login Endpoint
 
-## T041
+## T041 ✅
 
 Criar Refresh Endpoint
 
-## T042
+## T042 ✅
 
 Criar Logout Endpoint
 
-## T043
+## T043 ✅
 
 Criar Forgot Password
 
-## T044
+## T044 ✅
 
 Criar Reset Password
 
 ---
 
-## T045
+## T045 ✅
 
 Criar testes unitários Auth
 
-## T046
+## T046 ✅
 
 Criar testes integração Auth
 
-## T047
+## T047 ✅
 
 Criar testes E2E Auth
 
 ---
 
-# FASE 04 - MULTI TENANT
+# FASE 04 - MULTI TENANT ✅ CONCLUÍDA
 
-## T048
+## T048 ✅
 
 Criar Tenant Middleware
 
-## T049
+## T049 ✅
 
 Criar Tenant Context
 
-## T050
+## T050 ✅
 
 Implementar Tenant Guard
 
-## T051
+## T051 ✅
 
 Criar Tenant Decorator
 
-## T052
+## T052 ✅
 
 Criar filtro por tenant
 
-## T053
+## T053 ✅
 
 Criar testes isolamento
 
-## T054
+## T054 ✅
 
 Criar endpoint cadastro tenant
 
-## T055
+## T055 ✅
 
 Criar endpoint edição tenant
 
 ---
 
-# FASE 05 - RBAC
+# FASE 05 - RBAC 🔜 PRÓXIMA
 
 ## T056
 

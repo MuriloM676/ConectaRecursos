@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ALLOW_SUPER_ADMIN_KEY } from './tenant.guard';
 
 export const ROLES_KEY = 'roles';
 
@@ -30,6 +31,16 @@ export class RolesGuard implements CanActivate {
 
     // SUPER_ADMIN tem acesso a tudo
     if (user.role === 'SUPER_ADMIN') {
+      return true;
+    }
+
+    // AllowSuperAdmin decorator bypasses role check for SUPER_ADMIN
+    const allowSuperAdmin = this.reflector.getAllAndOverride<boolean>(
+      ALLOW_SUPER_ADMIN_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
+    if (allowSuperAdmin) {
       return true;
     }
 

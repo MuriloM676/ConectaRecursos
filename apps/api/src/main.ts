@@ -29,8 +29,8 @@ async function bootstrap() {
   // Global filters
   app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
 
-  // Global interceptors
-  app.useGlobalInterceptors(new TenantContextInterceptor(), new ResponseInterceptor());
+  // Global interceptors (now registered via APP_INTERCEPTOR in AppModule)
+  // app.useGlobalInterceptors(new TenantContextInterceptor(), new ResponseInterceptor());
 
   // CORS
   app.enableCors({
