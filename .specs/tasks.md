@@ -246,40 +246,31 @@ Criar testes RBAC
 
 # FASE 06 - USERS
 
-## T063
-
+## T063 ✅
 Criar módulo Users
 
-## T064
-
+## T064 ✅
 Criar CreateUser DTO
 
-## T065
-
+## T065 ✅
 Criar UpdateUser DTO
 
-## T066
-
+## T066 ✅
 Criar endpoint listagem
 
-## T067
-
+## T067 ✅
 Criar endpoint consulta
 
-## T068
-
+## T068 ✅
 Criar endpoint criação
 
-## T069
-
+## T069 ✅
 Criar endpoint atualização
 
-## T070
-
+## T070 ✅
 Criar endpoint exclusão lógica
 
-## T071
-
+## T071 🔜 PRÓXIMA
 Criar pagina usuários
 
 ## T072
