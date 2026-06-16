@@ -16,6 +16,7 @@ import { PermissionsModule } from '@modules/permissions/permissions.module';
 import { ParliamentariansModule } from '@modules/parliamentarians/parliamentarians.module';
 import { EmendasModule } from '@modules/emendas/emendas.module';
 import { SiopModule } from '@modules/siop/siop.module';
+import { ImpedimentsModule } from '@modules/impediments/impediments.module';
 import { AuthGuard } from '@common/guards/auth.guard';
 import { TenantGuard } from '@common/guards/tenant.guard';
 import { RolesGuard } from '@common/guards/roles.guard';
@@ -49,6 +50,7 @@ import { RedisConfig } from '@config/redis.config';
     ParliamentariansModule,
     EmendasModule,
     SiopModule,
+    ImpedimentsModule,
   ],
   controllers: [],
   providers: [

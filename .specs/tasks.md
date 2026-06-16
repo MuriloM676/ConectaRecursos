@@ -422,17 +422,67 @@ Criar testes E2E SIOP
 
 ---
 
-# FASE 10 - IMPEDIMENTOS
+# FASE 10 - IMPEDIMENTOS ✅ CONCLUÍDA
 
-T131 até T150
+## T131 ✅
+Modelagem já existente no Prisma schema
 
-* Modelagem
-* CRUD
-* Histórico
-* Integração SIOP
-* Dashboard
-* Alertas
-* Testes
+## T132 ✅
+Criar módulo Impediments
+
+## T133 ✅
+Criar DTOs CreateImpediment / UpdateImpediment
+
+## T134 ✅
+Criar DTOs Response / History
+
+## T135 ✅
+Criar CRUD endpoints
+
+## T136 ✅
+Criar serviço com regras de negócio
+
+## T137 ✅
+Validar vínculo com emenda no create
+
+## T138 ✅
+Implementar histórico automático de status
+
+## T139 ✅
+Validar impedimentos SIOP não podem ser deletados
+
+## T140 ✅
+Criar endpoint listagem com filtros
+
+## T141 ✅
+Criar endpoint consulta por ID
+
+## T142 ✅
+Criar endpoint atualização
+
+## T143 ✅
+Criar endpoint exclusão
+
+## T144 ✅
+Criar endpoint histórico
+
+## T145 ✅
+Integração com SIOP (já existente na sincronização)
+
+## T146 ✅
+Atualizar permissões e roles
+
+## T147 ✅
+Criar testes unitários
+
+## T148 ✅
+Criar testes integração
+
+## T149 ✅
+Criar testes E2E
+
+## T150 ✅
+Atualizar documentação Swagger
 
 ---
 
