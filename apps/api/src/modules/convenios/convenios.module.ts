@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConveniosService } from './convenios.service';
-import { ConveniosController } from './convenios.controller';
+import { ConveniosController, FinancialScheduleController } from './convenios.controller';
 
 @Module({
-  controllers: [ConveniosController],
+  controllers: [ConveniosController, FinancialScheduleController],
   providers: [ConveniosService],
   exports: [ConveniosService],
 })

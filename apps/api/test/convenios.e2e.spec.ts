@@ -10,7 +10,6 @@ import { ValidationExceptionFilter } from '../src/common/filters/validation-exce
 
 describe('Convenios Module - E2E Tests', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
 
   const redisStore = new Map<string, { value: string; ttl: number }>();
 
@@ -47,8 +46,39 @@ describe('Convenios Module - E2E Tests', () => {
         { permission: { code: 'convenio:update' } },
         { permission: { code: 'convenio:delete' } },
         { permission: { code: 'financial_schedule:create' } },
+        { permission: { code: 'financial_schedule:read' } },
+        { permission: { code: 'financial_schedule:update' } },
       ],
     },
+  };
+
+  const mockScheduleItem = {
+    id: 'schedule-1',
+    convenioId: 'convenio-1',
+    expectedAmount: 500000,
+    expectedDate: '2026-09-01',
+    receivedAmount: null,
+    receivedDate: null,
+    status: 'PENDING',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  const mockConvenio = {
+    id: 'convenio-1',
+    tenantId: mockUser.tenantId,
+    emendaId: 'emenda-1',
+    number: 'CV-2026-001',
+    object: 'Construção de UBS',
+    totalAmount: 2500000,
+    counterpartAmount: 200000,
+    startDate: '2026-01-01',
+    endDate: '2027-01-01',
+    status: 'DRAFT',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+    emenda: { number: '20260001' },
   };
 
   const mockPrismaService = {
@@ -56,81 +86,29 @@ describe('Convenios Module - E2E Tests', () => {
     tenant: { findUnique: jest.fn().mockResolvedValue({ id: mockUser.tenantId, document: '00000000000000', name: 'Test Tenant' }) },
     emenda: { findUnique: jest.fn().mockResolvedValue({ id: 'emenda-1' }) },
     convenio: {
-      create: jest
-        .fn()
-        .mockResolvedValue({
-          id: 'convenio-1',
-          tenantId: mockUser.tenantId,
-          emendaId: 'emenda-1',
-          number: 'CV-2026-001',
-          object: 'Construção de UBS',
-          totalAmount: 2500000,
-          counterpartAmount: 200000,
-          startDate: '2026-01-01',
-          endDate: '2027-01-01',
-          status: 'DRAFT',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          deletedAt: null,
-          emenda: { number: '20260001' },
-        }),
-      findMany: jest
-        .fn()
-        .mockResolvedValue([
-          {
-            id: 'convenio-1',
-            tenantId: mockUser.tenantId,
-            emendaId: 'emenda-1',
-            number: 'CV-2026-001',
-            object: 'Construção de UBS',
-            totalAmount: 2500000,
-            counterpartAmount: 200000,
-            startDate: '2026-01-01',
-            endDate: '2027-01-01',
-            status: 'DRAFT',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: null,
-            emenda: { number: '20260001' },
-          },
-        ]),
-      findFirst: jest.fn(),
+      create: jest.fn().mockResolvedValue(mockConvenio),
+      findMany: jest.fn().mockResolvedValue([mockConvenio]),
+      findFirst: jest.fn().mockResolvedValue(mockConvenio),
+      findUnique: jest.fn().mockResolvedValue(mockConvenio),
       count: jest.fn().mockResolvedValue(1),
-      update: jest.fn(),
+      update: jest.fn().mockResolvedValue(mockConvenio),
+      aggregate: jest.fn()
+        .mockResolvedValueOnce({ _sum: { totalAmount: 2500000 } })
+        .mockResolvedValueOnce({ _sum: { counterpartAmount: 200000 } }),
     },
     convenioFinancialSchedule: {
-      create: jest.fn().mockResolvedValue({
-        id: 'schedule-1',
-        convenioId: 'convenio-1',
-        expectedAmount: 500000,
-        expectedDate: '2026-09-01',
-        status: 'PENDING',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }),
+      create: jest.fn().mockResolvedValue(mockScheduleItem),
+      findMany: jest.fn().mockResolvedValue([mockScheduleItem]),
+      findUnique: jest.fn().mockResolvedValue(mockScheduleItem),
+      update: jest.fn().mockResolvedValue({ ...mockScheduleItem, receivedAmount: 500000, receivedDate: '2026-09-15', status: 'RECEIVED' }),
     },
+    applyTenantFilter: jest.fn((model, where) => ({ ...where, tenantId: mockUser.tenantId })),
+    getTenantId: jest.fn().mockReturnValue(mockUser.tenantId),
   };
 
   beforeAll(async () => {
     const bcrypt = require('bcrypt');
     mockUser.passwordHash = await bcrypt.hash('Admin@123', 12);
-
-    mockPrismaService.convenio.findFirst.mockResolvedValue({
-      id: 'convenio-1',
-      tenantId: mockUser.tenantId,
-      emendaId: 'emenda-1',
-      number: 'CV-2026-001',
-      object: 'Construção de UBS',
-      totalAmount: 2500000,
-      counterpartAmount: 200000,
-      startDate: '2026-01-01',
-      endDate: '2027-01-01',
-      status: 'DRAFT',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: null,
-      emenda: { number: '20260001' },
-    });
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -145,7 +123,6 @@ describe('Convenios Module - E2E Tests', () => {
     app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
     app.useGlobalInterceptors(new ResponseInterceptor());
     await app.init();
-    prisma = moduleFixture.get<PrismaService>(PrismaService);
   });
 
   beforeEach(() => {
@@ -195,6 +172,16 @@ describe('Convenios Module - E2E Tests', () => {
     expect(response.body.data.id).toBe('convenio-1');
   });
 
+  it('should list financial schedule', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/convenios/convenio-1/schedule')
+      .set('Authorization', 'Bearer test')
+      .expect(HttpStatus.OK);
+
+    expect(response.body.success).toBe(true);
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
+
   it('should add schedule item', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/convenios/convenio-1/schedule')
@@ -206,5 +193,43 @@ describe('Convenios Module - E2E Tests', () => {
       .expect(HttpStatus.CREATED);
 
     expect(response.body.success).toBe(true);
+  });
+
+  it('should update schedule item', async () => {
+    const response = await request(app.getHttpServer())
+      .patch('/api/v1/schedule/schedule-1')
+      .set('Authorization', 'Bearer test')
+      .send({
+        receivedAmount: 500000,
+        receivedDate: '2026-09-15',
+        status: 'RECEIVED',
+      })
+      .expect(HttpStatus.OK);
+
+    expect(response.body.success).toBe(true);
+  });
+
+  it('should get convenio balance', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/convenios/convenio-1/balance')
+      .set('Authorization', 'Bearer test')
+      .expect(HttpStatus.OK);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('totalExpected');
+    expect(response.body.data).toHaveProperty('totalReceived');
+    expect(response.body.data).toHaveProperty('balance');
+  });
+
+  it('should get convenio indicators', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/api/v1/convenios/indicators')
+      .set('Authorization', 'Bearer test')
+      .expect(HttpStatus.OK);
+
+    expect(response.body.success).toBe(true);
+    expect(response.body.data).toHaveProperty('total');
+    expect(response.body.data).toHaveProperty('byStatus');
+    expect(response.body.data).toHaveProperty('totalAmount');
   });
 });

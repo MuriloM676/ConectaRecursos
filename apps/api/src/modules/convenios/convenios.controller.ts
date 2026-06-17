@@ -16,6 +16,7 @@ import { CreateConvenioDto } from './dto/create-convenio.dto';
 import { UpdateConvenioDto } from './dto/update-convenio.dto';
 import { ConvenioResponseDto } from './dto/convenio-response.dto';
 import { CreateFinancialScheduleDto } from './dto/financial-schedule.dto';
+import { UpdateFinancialScheduleDto } from './dto/update-financial-schedule.dto';
 import { PaginationDto, PaginatedResult } from '@common/dto/pagination.dto';
 import { RequirePermissions } from '@common/decorators/permissions.decorator';
 
@@ -73,6 +74,17 @@ export class ConveniosController {
     return this.conveniosService.remove(id);
   }
 
+  @Get(':id/schedule')
+  @RequirePermissions('financial_schedule:read')
+  @ApiOperation({
+    summary: 'List financial schedule',
+    description: 'Returns all financial schedule items for a convenio.',
+  })
+  @ApiResponse({ status: 200, description: 'Financial schedule items' })
+  async getFinancialSchedules(@Param('id') convenioId: string): Promise<any[]> {
+    return this.conveniosService.getFinancialSchedules(convenioId);
+  }
+
   @Post(':id/schedule')
   @RequirePermissions('financial_schedule:create')
   @HttpCode(HttpStatus.CREATED)
@@ -80,7 +92,48 @@ export class ConveniosController {
     summary: 'Add financial schedule item',
     description: 'Adds a new financial schedule item to a convenio.',
   })
+  @ApiResponse({ status: 201, description: 'Schedule item created' })
   async addFinancialSchedule(@Param('id') convenioId: string, @Body() dto: CreateFinancialScheduleDto): Promise<any> {
     return this.conveniosService.addFinancialSchedule(convenioId, dto);
+  }
+
+  @Get(':id/balance')
+  @RequirePermissions('convenio:read')
+  @ApiOperation({
+    summary: 'Get convenio balance',
+    description: 'Returns the financial balance for a convenio.',
+  })
+  @ApiResponse({ status: 200, description: 'Balance data' })
+  async getBalance(@Param('id') convenioId: string): Promise<any> {
+    return this.conveniosService.getBalance(convenioId);
+  }
+
+  @Get('indicators')
+  @RequirePermissions('convenio:read')
+  @ApiOperation({
+    summary: 'Get convenio indicators',
+    description: 'Returns summary indicators for convenios.',
+  })
+  @ApiResponse({ status: 200, description: 'Convenio indicators' })
+  async getIndicators(): Promise<any> {
+    return this.conveniosService.getIndicators();
+  }
+}
+
+@Controller('schedule')
+@ApiTags('Financial Schedule')
+@ApiBearerAuth()
+export class FinancialScheduleController {
+  constructor(private readonly conveniosService: ConveniosService) {}
+
+  @Patch(':id')
+  @RequirePermissions('financial_schedule:update')
+  @ApiOperation({
+    summary: 'Update financial schedule item',
+    description: 'Updates a financial schedule item including received amounts.',
+  })
+  @ApiResponse({ status: 200, description: 'Schedule item updated' })
+  async update(@Param('id') id: string, @Body() dto: UpdateFinancialScheduleDto): Promise<any> {
+    return this.conveniosService.updateFinancialSchedule(id, dto);
   }
 }

@@ -486,17 +486,64 @@ Atualizar documentação Swagger
 
 ---
 
-# FASE 11 - CONVÊNIOS
+# FASE 11 - CONVÊNIOS ✅ CONCLUÍDA
 
-T151 até T180
+## T151 ✅
+Modelagem de dados (Convenio, ConvenioFinancialSchedule)
 
-* Modelagem
-* CRUD
-* Cronograma Financeiro
-* Recebimentos
-* Saldo
-* Indicadores
-* Testes
+## T152 ✅
+Criar módulo Convenios
+
+## T153 ✅
+Criar CreateConvenio DTO
+
+## T154 ✅
+Criar UpdateConvenio DTO
+
+## T155 ✅
+Criar ConvenioResponse DTO
+
+## T156 ✅
+Criar endpoint criação
+
+## T157 ✅
+Criar endpoint listagem
+
+## T158 ✅
+Criar endpoint consulta
+
+## T159 ✅
+Criar endpoint atualização
+
+## T160 ✅
+Criar endpoint exclusão (soft delete)
+
+## T161 ✅
+Criar cronograma financeiro (POST schedule)
+
+## T162 ✅
+Criar listagem cronograma (GET schedule)
+
+## T163 ✅
+Criar atualização cronograma (PATCH schedule)
+
+## T164 ✅
+Implementar recebimentos (receivedAmount, receivedDate)
+
+## T165 ✅
+Implementar cálculo de saldo (balance)
+
+## T166 ✅
+Implementar indicadores de convênios
+
+## T167 ✅
+Criar testes unitários
+
+## T168 ✅
+Criar testes de integração
+
+## T169 ✅
+Criar testes E2E
 
 ---
 
