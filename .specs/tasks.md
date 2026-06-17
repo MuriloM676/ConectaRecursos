@@ -648,16 +648,16 @@ Criar testes E2E
 
 ---
 
-# FASE 14 - DOCUMENTOS
+# FASE 14 - DOCUMENTOS ✅ CONCLUÍDA
 
 T226 até T245
 
-* Upload
-* Download
-* Versionamento
-* Armazenamento
-* Permissões
-* Testes
+* Upload ✅
+* Download ✅
+* Versionamento ✅
+* Armazenamento ✅
+* Permissões ✅
+* Testes ✅
 
 ---
 
