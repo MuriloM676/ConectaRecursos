@@ -28,7 +28,10 @@ export class DashboardService {
         where: { ...tenantFilterConvenio, status: { not: 'CANCELLED' } },
       }),
       this.prisma.impediment.count({
-        where: { ...tenantFilter, status: 'OPEN' },
+        where: {
+          status: 'OPEN',
+          ...(tenantId ? { emenda: { tenantId } } : {}),
+        },
       }),
       this.prisma.convenioFinancialSchedule.aggregate({
         where: { convenio: { ...tenantFilterConvenio } },
