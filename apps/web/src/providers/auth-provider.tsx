@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(async (email: string, password: string) => {
     const response = await apiClient.post('/auth/login', { email, password });
-    const { accessToken, refreshToken } = response.data;
+    const { accessToken, refreshToken } = response.data as { accessToken: string; refreshToken: string };
 
     // Decode JWT to get user info
     const payload = JSON.parse(atob(accessToken.split('.')[1]));

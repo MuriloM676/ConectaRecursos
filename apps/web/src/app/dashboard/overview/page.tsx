@@ -75,7 +75,7 @@ export default function DashboardOverview() {
         ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(overview.capturedAmount)
         : 'R$ 0',
       icon: TrendingUp,
-      change: `${overview?.executionPercentage ?? 0}% executado',
+      change: String(overview?.executionPercentage ?? 0) + '% executado',
       changeType: 'increase' as const,
     },
     {
@@ -84,21 +84,21 @@ export default function DashboardOverview() {
         ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(overview.receivedAmount)
         : 'R$ 0',
       icon: FileText,
-      change: `${overview?.receivedPercentage ?? 0}% recebido',
+      change: String(overview?.receivedPercentage ?? 0) + '% recebido',
       changeType: overview?.receivedPercentage > 50 ? 'increase' as const : 'neutral' as const,
     },
     {
       name: 'Impedimentos',
       value: String(overview?.openImpediments ?? 0),
       icon: AlertTriangle,
-      change: `${overview?.activeConvenios ?? 0} convênios ativos`,
+      change: String(overview?.activeConvenios ?? 0) + ' convênios ativos',
       changeType: overview?.openImpediments && overview.openImpediments > 0 ? 'decrease' as const : 'neutral' as const,
     },
     {
       name: 'Emendas Ativas',
       value: String(overview?.totalEmendas ?? 0),
       icon: Users,
-      change: `${overview?.executionPercentage ?? 0}% execução`,
+      change: String(overview?.executionPercentage ?? 0) + '% execução',
       changeType: 'neutral' as const,
     },
   ];

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-API_URL=${API_URL:-http://localhost:3001}
+API_URL=${API_URL:-http://localhost:3001/api/v1}
 TIMEOUT=${TIMEOUT:-30}
 RETRY_INTERVAL=${RETRY_INTERVAL:-3}
 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # ==================== PostgreSQL 16 ====================
   postgres:
@@ -15,7 +13,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U captagov -d captagov"]
       interval: 10s
@@ -73,6 +70,59 @@ services:
     ports:
       - "1025:1025" # SMTP
       - "8025:8025" # Web UI
+    networks:
+      - captagov-network
+
+  # ==================== API (NestJS) ====================
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: captagov-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-3001}:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      CORS_ORIGIN: http://localhost:3000
+      DATABASE_URL: postgresql://captagov:captagov_dev@postgres:5432/captagov?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: captagov_redis
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: captagov
+      RABBITMQ_PASS: captagov_rabbit
+      JWT_SECRET: change-this-to-a-random-secret
+      JWT_EXPIRES_IN: 3600
+      JWT_REFRESH_SECRET: change-this-to-a-random-refresh-secret
+      JWT_REFRESH_EXPIRES_IN: 604800
+      SIOP_API_URL: https://api.siop.gov.br/graphql
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - captagov-network
+
+  # ==================== Web (Next.js) ====================
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    container_name: captagov-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
+    depends_on:
+      - api
     networks:
       - captagov-network
 
