@@ -852,18 +852,43 @@ Dashboard operacional no frontend — pendente
 
 ---
 
-# FASE 19 - DEPLOY
+# FASE 19 - DEPLOY ✅ CONCLUÍDA
 
-T326 até T350
+## T326 ✅
+Criar Dockerfile produção para API (multi-stage, Turbo monorepo-aware, Prisma migrations)
 
-* Docker Production
-* CI/CD
-* GitHub Actions
-* Build Backend
-* Build Frontend
-* Migrations Automáticas
-* Backups
-* Restore
-* Ambiente Staging
-* Ambiente Produção
-* Smoke Tests
+## T327 ✅
+Criar Dockerfile produção para Web (multi-stage, Turbo monorepo-aware, Next.js start)
+
+## T328 ✅
+Atualizar docker-compose.prod.yml com serviços api e web
+
+## T329 ✅
+Instalar Docker build infra já existente (docker/docker-compose.yml) com PostgreSQL 16, Redis 7, RabbitMQ, Mailhog
+
+## T330 ✅
+Adicionar script de backup (scripts/backup.sh) com pg_dump e rotação de 7 dias
+
+## T331 ✅
+Adicionar script de restore (scripts/restore.sh) com pg_restore
+
+## T332 ✅
+Adicionar script de smoke test (scripts/smoke-test.sh) validando health check e auth
+
+## T333 ✅
+CI/CD pipeline (`.github/workflows/ci.yml`) atualizado com jobs: lint, test-backend, test-e2e, build, smoke-test, deploy
+
+## T334 ✅
+Deploy job condicional (branch main) com placeholder para target SSH/Docker
+
+## T335 ✅
+Migrações automáticas via `prisma migrate deploy` no CMD do Dockerfile.api
+
+## T336 ✅
+.env.example atualizado com variáveis de produção (POSTGRES_*, RABBITMQ_PASSWORD, API_PORT, WEB_PORT)
+
+## T337 ⬜
+Configurar ambiente staging (servidor/domínio) — pendente (requer infraestrutura real)
+
+## T338 ⬜
+Configurar ambiente produção (servidor/domínio) — pendente (requer infraestrutura real)

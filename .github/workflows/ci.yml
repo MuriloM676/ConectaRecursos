@@ -1,10 +1,14 @@
-name: CI
+name: CI/CD
 
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   lint:
@@ -43,7 +47,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-      - name: Run tests
+      - name: Run unit tests
         run: npm run test --workspace=@captagov/api
         env:
           DATABASE_URL: postgresql://captagov:captagov_test@localhost:5432/captagov_test?schema=public
@@ -72,7 +76,9 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-      - name: Run e2e tests
+      - name: Generate Prisma client
+        run: npx prisma generate --schema=apps/api/prisma/schema.prisma
+      - name: Run E2E tests
         run: npm run test:e2e --workspace=@captagov/api
         env:
           DATABASE_URL: postgresql://captagov:captagov_test@localhost:5432/captagov_test?schema=public
@@ -87,4 +93,45 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
+      - run: npx prisma generate --schema=apps/api/prisma/schema.prisma
       - run: npm run build
+
+  smoke-test:
+    name: Smoke Test
+    needs: [lint, test-backend, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npx prisma generate --schema=apps/api/prisma/schema.prisma
+      - run: npm run build --workspace=@captagov/api
+      - name: Start API for smoke test
+        run: |
+          DATABASE_URL=postgresql://captagov:captagov_test@localhost:5432/captagov_test?schema=public \
+          PORT=3099 \
+          node apps/api/dist/main &
+          echo $! > /tmp/api.pid
+          sleep 3
+        timeout-minutes: 2
+      - name: Run smoke test
+        run: |
+          API_URL=http://localhost:3099 sh scripts/smoke-test.sh
+      - name: Cleanup
+        run: kill $(cat /tmp/api.pid) 2>/dev/null || true
+
+  deploy:
+    name: Deploy
+    needs: [lint, test-backend, build, smoke-test]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to production
+        run: |
+          echo "Deployment placeholder — configure your deploy target"
+          # Example SSH deploy:
+          # ssh $DEPLOY_HOST "cd /opt/captagov && docker compose -f docker/docker-compose.prod.yml pull && docker compose -f docker/docker-compose.prod.yml up -d"
