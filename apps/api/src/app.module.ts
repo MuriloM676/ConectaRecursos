@@ -24,6 +24,8 @@ import { WorkflowsModule } from '@modules/workflows/workflows.module';
 import { DocumentsModule } from '@modules/documents/documents.module';
 import { AlertsModule } from '@modules/alerts/alerts.module';
 import { DashboardModule } from '@modules/dashboard/dashboard.module';
+import { ReportsModule } from '@modules/reports/reports.module';
+import { HealthModule } from '@modules/health/health.module';
 import { AuthGuard } from '@common/guards/auth.guard';
 import { TenantGuard } from '@common/guards/tenant.guard';
 import { RolesGuard } from '@common/guards/roles.guard';
@@ -65,6 +67,8 @@ import { RedisConfig } from '@config/redis.config';
     DocumentsModule,
     AlertsModule,
     DashboardModule,
+    ReportsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [

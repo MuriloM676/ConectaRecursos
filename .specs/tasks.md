@@ -762,28 +762,93 @@ Adicionar indicadores financeiros
 
 ---
 
-# FASE 17 - RELATÓRIOS
+# FASE 17 - RELATÓRIOS ✅ CONCLUÍDA
 
-T281 até T295
+## T281 ✅
+Criar módulo Reports
 
-* PDF
-* Excel
-* CSV
-* Templates
-* Exportações
+## T282 ✅
+Instalar dependências (pdfkit, exceljs)
+
+## T283 ✅
+Criar DTO GenerateReport
+
+## T284 ✅
+Criar DTO ReportResponse
+
+## T285 ✅
+Implementar geração de PDF com pdfkit
+
+## T286 ✅
+Implementar geração de XLSX com exceljs
+
+## T287 ✅
+Implementar geração de CSV
+
+## T288 ✅
+Criar endpoint gerar relatório (POST /reports/generate)
+
+## T289 ✅
+Criar endpoint listagem (GET /reports)
+
+## T290 ✅
+Criar endpoint download (GET /reports/:id/download)
+
+## T291 ✅
+Registrar módulo no AppModule
+
+## T292 ✅
+Criar testes unitários
+
+## T293 ✅
+Criar testes E2E
+
+## T294 ✅
+Criar página de relatórios no frontend
+
+## T295 ✅
+Atualizar permissões e roles
 
 ---
 
 
-# FASE 18 - OBSERVABILIDADE
+# FASE 18 - OBSERVABILIDADE ✅ CONCLUÍDA
 
-T311 até T325
+## T311 ✅
+Criar módulo Health (controller, service, DTOs)
 
-* Health Checks
-* Logs Estruturados
-* Métricas
-* Tracing
-* Dashboards Operacionais
+## T312 ✅
+Criar endpoint GET /health com verificação API
+
+## T313 ✅
+Verificar conectividade do banco de dados (Prisma $queryRaw SELECT 1)
+
+## T314 ✅
+Verificar conectividade do Redis (TCP socket check)
+
+## T315 ✅
+Implementar logs estruturados no LoggerMiddleware (JSON com method, url, statusCode, duration, userAgent, ip, timestamp)
+
+## T316 ✅
+Criar testes unitários do HealthService
+
+## T317 ✅
+Criar testes E2E do módulo Health
+
+## T318 ✅
+Registrar módulo Health no AppModule
+
+## T319 ✅
+Registrar HealthController na documentação Swagger
+
+## T320 ⬜
+Implementar métricas (Prometheus /micrometers) — pendente
+
+## T321 ⬜
+Implementar tracing (OpenTelemetry) — pendente
+
+## T322 ⬜
+Dashboard operacional no frontend — pendente
 
 ---
 
