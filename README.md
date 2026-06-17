@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow" alt="Status">
   <img src="https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen" alt="Node">
   <img src="https://img.shields.io/badge/npm-%3E%3D10.0.0-red" alt="NPM">
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
+  <img src="https://img.shields.io/badge/license-All%20Rights%20Reserved-red" alt="License">
 </div>
 
 <br />
@@ -205,4 +205,6 @@ docker compose -f docker/docker-compose.prod.yml up -d
 
 ## Licença
 
-MIT
+Copyright (c) 2026 Murilo Martins. All Rights Reserved.
+
+Este software é proprietário. Nenhuma parte deste software pode ser copiada, modificada, distribuída ou utilizada sem autorização expressa do autor.
