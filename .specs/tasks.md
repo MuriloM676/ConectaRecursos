@@ -584,17 +584,67 @@ Criar testes E2E
 
 ---
 
-# FASE 13 - PRESTAÇÃO DE CONTAS
+# FASE 13 - PRESTAÇÃO DE CONTAS ✅ CONCLUÍDA
 
-T201 até T225
+## T201 ✅
+Criar módulo Accountability (controller, service, DTOs)
 
-* Cadastro
-* Workflow
-* Aprovação
-* Reprovação
-* Pendências
-* Histórico
-* Testes
+## T202 ✅
+Criar endpoint criação de relatório (POST /accountability-reports)
+
+## T203 ✅
+Criar endpoint listagem com filtros (GET /accountability-reports)
+
+## T204 ✅
+Criar endpoint consulta por ID (GET /accountability-reports/:id)
+
+## T205 ✅
+Criar endpoint atualização (PATCH /accountability-reports/:id)
+
+## T206 ✅
+Criar endpoint submissão (POST /accountability-reports/:id/submit)
+
+## T207 ✅
+Criar endpoint aprovação (POST /accountability-reports/:id/approve)
+
+## T208 ✅
+Criar endpoint reprovação (POST /accountability-reports/:id/reject)
+
+## T209 ✅
+Criar gerenciamento de itens (GET/POST /accountability-reports/:id/items)
+
+## T210 ✅
+Criar módulo Workflows (controller, service, DTOs)
+
+## T211 ✅
+Criar endpoint criação de workflow (POST /workflows)
+
+## T212 ✅
+Criar endpoint listagem de workflows (GET /workflows)
+
+## T213 ✅
+Criar endpoint gerenciamento de etapas (POST /workflows/:id/steps, GET /workflows/:id/steps)
+
+## T214 ✅
+Criar endpoint aprovação de approval (POST /approvals/:id/approve)
+
+## T215 ✅
+Criar endpoint rejeição de approval (POST /approvals/:id/reject)
+
+## T216 ✅
+Registrar módulos no AppModule
+
+## T217 ✅
+Criar testes unitários Accountability
+
+## T218 ✅
+Criar testes unitários Workflows
+
+## T219 ✅
+Criar testes de integração
+
+## T220 ✅
+Criar testes E2E
 
 ---
 
