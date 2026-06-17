@@ -547,16 +547,40 @@ Criar testes E2E
 
 ---
 
-# FASE 12 - EXECUÇÃO FÍSICA
+# FASE 12 - EXECUÇÃO FÍSICA ✅ CONCLUÍDA
 
-T181 até T200
+## T181 ✅
+Criar módulo PhysicalExecution
 
-* Etapas
-* Evolução
-* Fotos
-* Percentuais
-* Relatórios
-* Testes
+## T182 ✅
+Criar DTOs de etapas (CreateStage, UpdateStage, StageResponse)
+
+## T183 ✅
+Criar DTOs de evolução (CreateProgress, ProgressResponse, ConvenioProgressResponse)
+
+## T184 ✅
+Criar CRUD de etapas (create, list, update, delete)
+
+## T185 ✅
+Criar registro de evolução física (record progress)
+
+## T186 ✅
+Criar endpoint de progresso consolidado do convênio
+
+## T187 ✅
+Implementar cálculo de percentuais (overallPercentage ponderado)
+
+## T188 ✅
+Criar endpoint listagem de histórico de progresso por etapa
+
+## T189 ✅
+Criar testes unitários
+
+## T190 ✅
+Criar testes de integração
+
+## T191 ✅
+Criar testes E2E
 
 ---
 
