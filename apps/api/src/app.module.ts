@@ -22,6 +22,8 @@ import { PhysicalExecutionModule } from '@modules/physical-execution/physical-ex
 import { AccountabilityModule } from '@modules/accountability/accountability.module';
 import { WorkflowsModule } from '@modules/workflows/workflows.module';
 import { DocumentsModule } from '@modules/documents/documents.module';
+import { AlertsModule } from '@modules/alerts/alerts.module';
+import { DashboardModule } from '@modules/dashboard/dashboard.module';
 import { AuthGuard } from '@common/guards/auth.guard';
 import { TenantGuard } from '@common/guards/tenant.guard';
 import { RolesGuard } from '@common/guards/roles.guard';
@@ -61,6 +63,8 @@ import { RedisConfig } from '@config/redis.config';
     AccountabilityModule,
     WorkflowsModule,
     DocumentsModule,
+    AlertsModule,
+    DashboardModule,
   ],
   controllers: [],
   providers: [

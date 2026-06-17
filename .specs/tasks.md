@@ -661,29 +661,104 @@ T226 até T245
 
 ---
 
-# FASE 15 - ALERTAS
+# FASE 15 - ALERTAS ✅ CONCLUÍDA
 
-T246 até T260
+## T246 ✅
+Criar módulo Alerts
 
-* E-mail
-* Dashboard
-* Webhooks
-* Templates
-* Histórico
-* Testes
+## T247 ✅
+Criar DTO CreateAlert com validação de tipos
+
+## T248 ✅
+Criar DTO AlertResponse
+
+## T249 ✅
+Criar endpoint criação (POST /alerts)
+
+## T250 ✅
+Criar endpoint listagem com filtros (GET /alerts)
+
+## T251 ✅
+Criar endpoint não lidos (GET /alerts/unread)
+
+## T252 ✅
+Criar endpoint marcar como lido (PATCH /alerts/:id/read)
+
+## T253 ✅
+Criar endpoint marcar todos como lidos (POST /alerts/read-all)
+
+## T254 ✅
+Criar endpoint alerta de teste (POST /alerts/test)
+
+## T255 ✅
+Registrar módulo no AppModule
+
+## T256 ✅
+Criar testes unitários
+
+## T257 ✅
+Criar testes de integração
+
+## T258 ✅
+Criar testes E2E
+
+## T259 ✅
+Atualizar permissões e roles
+
+## T260 ✅
+Atualizar documentação Swagger
 
 ---
 
-# FASE 16 - DASHBOARD EXECUTIVO
+# FASE 16 - DASHBOARD EXECUTIVO ✅ CONCLUÍDA
 
-T261 até T280
+## T261 ✅
+Criar módulo Dashboard
 
-* KPIs
-* Agregações
-* Materialized Views
-* Gráficos
-* Exportação
-* Testes
+## T262 ✅
+Criar DashboardService com queries de agregação
+
+## T263 ✅
+Criar endpoint overview (GET /dashboard/overview)
+
+## T264 ✅
+Criar endpoint emendas por status (GET /dashboard/emendas)
+
+## T265 ✅
+Criar endpoint parlamentares (GET /dashboard/parliamentarians)
+
+## T266 ✅
+Criar endpoint áreas/tipo (GET /dashboard/areas)
+
+## T267 ✅
+Criar endpoint financeiro (GET /dashboard/financial)
+
+## T268 ✅
+Criar DTOs de resposta
+
+## T269 ✅
+Registrar módulo no AppModule
+
+## T270 ✅
+Atualizar permissões de dashboard
+
+## T271 ✅
+Criar testes unitários
+
+## T272 ✅
+Criar testes de integração
+
+## T273 ✅
+Criar testes E2E
+
+## T274 ✅
+Atualizar frontend overview com dados reais
+
+## T275 ✅
+Adicionar gráficos (PieChart, BarChart) com Recharts
+
+## T276 ✅
+Adicionar indicadores financeiros
 
 ---
 
