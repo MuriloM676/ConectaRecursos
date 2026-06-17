@@ -81,7 +81,7 @@ services:
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN}
       SIOP_API_URL: ${SIOP_API_URL}
-      SIOP_API_KEY: ${SIOP_API_KEY}
+      SIOP_API_TOKEN: ${SIOP_API_TOKEN}
     depends_on:
       postgres:
         condition: service_healthy

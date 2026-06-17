@@ -98,7 +98,8 @@ services:
       JWT_EXPIRES_IN: 3600
       JWT_REFRESH_SECRET: change-this-to-a-random-refresh-secret
       JWT_REFRESH_EXPIRES_IN: 604800
-      SIOP_API_URL: https://api.siop.gov.br/graphql
+      SIOP_API_URL: https://www.siop.planejamento.gov.br/modulo/impositivo/itens/api
+      SIOP_API_TOKEN:
     depends_on:
       postgres:
         condition: service_healthy
