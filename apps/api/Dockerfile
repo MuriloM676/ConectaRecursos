@@ -1,32 +1,35 @@
-# ==================== Build Stage ====================
 FROM node:20-alpine AS builder
 
-WORKDIR /app
-
-# Prisma requires these for binary compilation
 RUN apk add --no-cache openssl
 
-COPY package.json package-lock.json* ./
-COPY prisma ./prisma
+WORKDIR /app
 
-RUN npm ci --ignore-scripts
-RUN npx prisma generate
+COPY package.json package-lock.json .
+COPY apps/api/package.json apps/api/
+COPY apps/web/package.json apps/web/
+COPY packages/shared/package.json packages/shared/
+RUN npm ci
 
-COPY . .
-RUN npm run build
+COPY apps/api apps/api
+COPY packages packages
+COPY turbo.json .
 
-# ==================== Production Stage ====================
+RUN npm exec --workspace=@captagov/api -- prisma generate --schema=prisma/schema.prisma
+RUN npx turbo build --filter=@captagov/api
+
 FROM node:20-alpine AS production
 
-WORKDIR /app
-
 RUN apk add --no-cache openssl
 
-COPY --from=builder /app/dist ./dist
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/apps/api/prisma ./prisma
+COPY --from=builder /app/apps/api/package.json .
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main"]
+CMD ["sh", "-c", "npx prisma@5.22.0 migrate deploy && node dist/main"]

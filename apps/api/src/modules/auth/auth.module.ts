@@ -20,6 +20,6 @@ import { JwtConfig } from '@config/jwt.config';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, PasswordHashService],
-  exports: [AuthService, JwtStrategy, PassportModule],
+  exports: [AuthService, JwtStrategy, PassportModule, PasswordHashService],
 })
 export class AuthModule {}

@@ -8,7 +8,8 @@ import {
   Settings, 
   LogOut,
   Building2,
-  PieChart
+  PieChart,
+  ClipboardCheck
 } from 'lucide-react';
 
 const sidebarItems = [
@@ -16,6 +17,7 @@ const sidebarItems = [
   { name: 'Emendas', href: '/dashboard/emendas', icon: FileText },
   { name: 'Parlamentares', href: '/dashboard/parliamentarians', icon: Users },
   { name: 'Usuários', href: '/dashboard/users', icon: ShieldCheck },
+  { name: 'Prestação de Contas', href: '/dashboard/prestacao-contas', icon: ClipboardCheck },
   { name: 'Tenants', href: '/dashboard/tenants', icon: Building2 },
   { name: 'Relatórios', href: '/dashboard/reports', icon: PieChart },
   { name: 'Configurações', href: '/dashboard/settings', icon: Settings },

@@ -54,7 +54,7 @@ async function bootstrap() {
     .addTag('Parliamentarians', 'Parlamentares')
     .addTag('Emendas', 'Emendas parlamentares')
     .addTag('SIOP', 'Sincronização SIOP')
-    .addTag('Impediments', 'Impedimentos')
+    .addTag('Impediments', 'Impedimentos de emendas')
     .addTag('Convênios', 'Convênios')
     .addTag('Financial Schedule', 'Cronograma financeiro')
     .addTag('Physical Execution', 'Execução física')
